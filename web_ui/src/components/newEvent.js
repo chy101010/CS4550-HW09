@@ -42,8 +42,7 @@ export default function NewEvent() {
                     data: `Event: "${event.name}" has been successfully created!`
                 }
                 store.dispatch(action);
-                console.log(data);
-                history.push(`/events/${data.data.id}`);
+                history.push(`/event/${data.data.id}`);
             }
         })
     }
@@ -101,7 +100,7 @@ export default function NewEvent() {
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Time</Form.Label>
-                        <Form.Control type="text" className="date" onChange={(ev) => update("time", ev)} value={event.date}/>
+                        <Form.Control type="date" className="date" onChange={(ev) => update("date", ev)} value={event.date}/>
                         <p>{event.date_msg}</p>
                     </Form.Group>
                     <Button variant="primary" type="submit" disabled={event.name_msg !== "" || event.date_msg !== ""}> Submit </Button>

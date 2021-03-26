@@ -11,8 +11,6 @@ defmodule Hw09Web.UserView do
   end
 
   def render("user.json", %{user: user}) do
-    %{id: user.id,
-      name: user.name,
-      email: user.email}
+    %{name: user.name, email: user.email}
   end
 end

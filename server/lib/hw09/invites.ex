@@ -85,6 +85,15 @@ defmodule Hw09.Invites do
       {:error, %Ecto.Changeset{}}
 
   """
+  def load_user(%Invite{} = invite) do
+    Repo.preload(invite, [:user])
+  end
+
+  def load_event(%Invite{} = invite) do
+    Repo.preload(invite, [:event])
+  end
+
+
   def delete_invite(%Invite{} = invite) do
     Repo.delete(invite)
   end

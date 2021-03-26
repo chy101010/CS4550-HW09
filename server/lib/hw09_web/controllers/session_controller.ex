@@ -8,6 +8,7 @@ defmodule Hw09Web.SessionController do
         if(user) do 
             sess = %{
                 user_id: user.id,
+                email: user.email,
                 name: user.name,
                 token: Phoenix.Token.sign(conn, "user_id", user.id),
             }

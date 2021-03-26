@@ -7,8 +7,10 @@ import Login from './components/login'
 import Home from './components/home'
 import MyNav from './components/nav'
 import NewEvent from './components/newEvent'
+import EditEvent from './components/editEvent'
 import Event from './components/event'
-import Users from './users'
+import EditUser from './components/editUser'
+import EditComment from './components/editComment'
 
 // Routers
 import { Switch, Route } from 'react-router-dom';
@@ -31,13 +33,15 @@ function App() {
           <Route path="/login" exact>
             <Login />
           </Route>
-          <Route path="/users" exact>
-            <Users />
+          <Route path="/user" exact>
+            <EditUser />
           </Route>
           <Route path="/events/create" exact>
             <NewEvent />
           </Route>
-          <Route path="/events/:id" component={Event} exact/> 
+          <Route path="/event/:id" component={Event} exact/> 
+          <Route path="/event/:id/edit" component={EditEvent} exact/> 
+          <Route path="/comment/:id/edit" component={EditComment} exact/> 
         </Switch>
       </Container>
     </div>

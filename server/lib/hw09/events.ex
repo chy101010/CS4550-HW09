@@ -115,4 +115,21 @@ defmodule Hw09.Events do
   def change_event(%Event{} = event, attrs \\ %{}) do
     Event.changeset(event, attrs)
   end
+
+
+  def get_events_owned(user_id) do 
+    query = from(e in Event, where: e.user_id == ^user_id, select: e)
+    Repo.all(query)
+  end 
+
+  def get_events_invited(user_id) do
+    query  = from(
+      e in Event, 
+      join: inv in Invite,
+      on: e.id == inv.event_id, 
+      where: inv.user_id == ^user_id,
+      select: e)
+    Repo.all(query)
+  end
+  
 end

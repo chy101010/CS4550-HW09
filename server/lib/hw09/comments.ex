@@ -89,6 +89,14 @@ defmodule Hw09.Comments do
     Repo.delete(comment)
   end
 
+  def load_event(%Comment{} = comment) do
+    Repo.preload(comment, [:event])
+  end
+
+  def load_user(%Comment{} = comment) do
+    Repo.preload(comment, [:user])
+  end
+
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking comment changes.
 

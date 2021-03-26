@@ -8,9 +8,6 @@ import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import store from './storage/store';
 
-// API
-import { load_defaults } from './api';
-
 // Router
 import { BrowserRouter as Router } from 'react-router-dom';
 
@@ -25,7 +22,6 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-load_defaults();
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

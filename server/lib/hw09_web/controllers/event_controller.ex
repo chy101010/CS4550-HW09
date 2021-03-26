@@ -4,13 +4,15 @@ defmodule Hw09Web.EventController do
   alias Hw09.Events
   alias Hw09.Events.Event
 
-  alias Hw09.Plugs
+  alias Hw09Web.Plugs
 
-  plug Plugs.RequireAuth when action in [:create]
+  plug Plugs.RequireAuth when action in [:index, :create, :update, :delete]
+  # User must fully Register to use the site
+  plug Plugs.RequireRegistration when action in [:create, :update, :delete]
   # Fetch event to @conn 
-  plug :fetch_event when action in [:show, :photo, :edit, :update, :delete]
+  plug :fetch_event when action in [:show, :update, :delete]
   # Requires the event owner in update/edit/delete
-  # plug :require_owner when action in [:edit, :update, :delete]
+  plug Plugs.RequireEventOwner when action in [:update, :delete]
 
   action_fallback Hw09Web.FallbackController
 
@@ -19,21 +21,13 @@ defmodule Hw09Web.EventController do
     event = Events.get_event!(id)
     assign(conn, :event, event)
   end 
-
-  # def require_owner(conn, args) do
-    # if is_owner?(conn, conn.assigns[:event].id) do
-    #   conn
-    # else 
-    #   conn
-    #   |> put_flash(:error, "No access")
-    #   |> redirect(to: Routes.page_path(conn, :index))
-    #   |> halt()
-    # end
-  # end
  
 
   def index(conn, _params) do
-    events = Events.list_events()
+    # events = Events.list_events();
+    owned_events = Events.get_events_owned(conn.assigns[:user].id)
+    invited_events = Events.get_events_invited(conn.assigns[:user].id)
+    events = owned_events ++ invited_events
     render(conn, "index.json", events: events)
   end
 
@@ -64,7 +58,7 @@ defmodule Hw09Web.EventController do
       {:error, %Ecto.Changeset{} = changeset} ->
         conn
         |> put_resp_header("content-type", "application/json; charset=UTF-8")
-        |> send_resp(422, Jason.encode!(%{error: "Failed Creation"}))
+        |> send_resp(406, Jason.encode!(%{error: "Failed Creation"}))
     end
   end
 
@@ -72,27 +66,32 @@ defmodule Hw09Web.EventController do
     event = conn.assigns[:event]
     |> Events.load_comment()
     |> Events.load_invite()
+    |> Events.load_user()
+    
     responses= 
     count_response(event.invites)
     |> Enum.map_join(", ", fn {key, val} -> "#{key}: #{val}" end)
-
     event = Map.put(event, :responses, responses)
-    result = render(conn, "preload_event.json", event: event)
-    IO.inspect(result)
-    result
+    
+    render(conn, "show_preload.json", event: event)
   end
 
   def update(conn, %{"id" => id, "event" => event_params}) do
-    event = Events.get_event!(id)
-
-    with {:ok, %Event{} = event} <- Events.update_event(event, event_params) do
-      render(conn, "show.json", event: event)
-    end
+    event = conn.assigns[:event]
+    case Events.update_event(event, event_params) do
+      {:ok, event} ->
+        conn
+        |> put_status(:accepted)
+        |> render("show.json", event: event)
+      {:error, %Ecto.Changeset{} = changeset} ->
+        conn
+        |> put_resp_header("content-type", "application/json; charset=UTF-8")
+        |> send_resp(406, Jason.encode!(%{error: "Failed Update"}))
+    end 
   end
 
   def delete(conn, %{"id" => id}) do
-    event = Events.get_event!(id)
-
+    event = conn.assigns[:event]
     with {:ok, %Event{}} <- Events.delete_event(event) do
       send_resp(conn, :no_content, "")
     end

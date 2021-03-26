@@ -1,2 +1,10 @@
 @import "~bootstrap/scss/bootstrap";
 @import 'flatpickr';
+
+
+.btn-link.btn-anchor {
+    outline: none !important;
+    padding: 0;
+    border: 0;
+    vertical-align: baseline;
+}

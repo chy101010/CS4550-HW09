@@ -24,8 +24,10 @@ defmodule Hw09Web.Router do
   scope "/api/v1", Hw09Web do
     pipe_through :api
 
-    resources "/users", UserController
-    resources "/events", EventController
+    resources "/users", UserController, except: [:new, :edit, :delete, :index]
+    resources "/events", EventController, except: [:new, :edit]
+    resources "/invites", InviteController, except: [:new, :edit, :index]
+    resources "/comments", CommentController, except: [:new, :edit, :index]
     resources "/session", SessionController, only: [:create]
   end
 

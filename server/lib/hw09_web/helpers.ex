@@ -1,6 +1,6 @@
-alias Hw07.Events
-alias Hw07.Invites
-alias Hw07.Comments
+alias Hw09.Events
+alias Hw09.Invites
+alias Hw09.Comments
 defmodule Hw09Web.Helpers do
     # Owner of the event?
     def is_owner?(conn, event_id) do
@@ -21,5 +21,28 @@ defmodule Hw09Web.Helpers do
                 "unresponded" -> Map.put(acc, "unresponded", acc["unresponded"] + 1)
             end
         end)
+    end 
+
+    # Invitee of the event?
+    def is_invitee?(conn, event_id) do
+        user_id = conn.assigns[:user].id
+        event_id
+        |> Events.get_event!()
+        |> Events.load_invite()
+        |> Map.get(:invites)
+        |> Enum.any?(fn x -> x.user_id == user_id end)
+    end
+
+
+    # Commenter or Event Owner of the event? 
+    def is_commenter?(conn, comm_id) do
+        user_id = conn.assigns[:user].id
+        comm = Comments.get_comment!(comm_id) 
+        comm.user_id == user_id || is_owner?(conn, comm.event_id)
+    end  
+
+    # Check whehter it is a owner of an invitee of a event
+    def belong_to_event?(conn, event_id) do
+        is_owner?(conn, event_id) || is_invitee?(conn, event_id)
     end 
 end 

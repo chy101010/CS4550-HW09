@@ -21,6 +21,6 @@ defmodule Hw09.Events.Event do
   def changeset(event, attrs) do
     event
     |> cast(attrs, [:description, :date, :name, :user_id])
-    |> validate_required([:description, :date, :name, :user_id])
+    |> validate_required([:date, :name, :user_id])
   end
 end

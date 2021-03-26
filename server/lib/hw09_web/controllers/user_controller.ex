@@ -3,14 +3,23 @@ defmodule Hw09Web.UserController do
 
   alias Hw09.Users
   alias Hw09.Users.User
+  alias Hw09Web.Plugs
+
+  plug Plugs.RequireAuth when action in [:show, :update]
+  plug :require_owner when action in [:show, :update]
 
   action_fallback Hw09Web.FallbackController
-
-  def index(conn, _params) do
-    users = Users.list_users()
-    IO.inspect(users);
-    render(conn, "index.json", users: users)
-  end
+ 
+  def require_owner(conn, _params) do
+    id = conn.params["id"]
+    if(conn.assigns[:user].id == String.to_integer(id)) do
+      conn
+    else
+      conn
+      |> put_flash(:error, "No Access")
+      |> redirect(to: Routes.page_path(conn, :index))
+    end 
+  end 
 
   def create(conn, %{"user" => user_params}) do
     case Users.create_user(user_params) do 
@@ -36,14 +45,6 @@ defmodule Hw09Web.UserController do
 
     with {:ok, %User{} = user} <- Users.update_user(user, user_params) do
       render(conn, "show.json", user: user)
-    end
-  end
-
-  def delete(conn, %{"id" => id}) do
-    user = Users.get_user!(id)
-
-    with {:ok, %User{}} <- Users.delete_user(user) do
-      send_resp(conn, :no_content, "")
     end
   end
 end
