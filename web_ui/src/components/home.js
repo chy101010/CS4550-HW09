@@ -12,7 +12,9 @@ export default function Home() {
 
     async function fetchEvents() {
         let data = await fetch_events();
-        store.dispatch({type: "events/set", data: data.data});
+        if(!data.error) {
+            store.dispatch({type: "events/set", data: data.data});
+        }
     }
 
     if(session) {

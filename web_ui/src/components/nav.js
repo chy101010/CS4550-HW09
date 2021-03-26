@@ -34,18 +34,16 @@ export default function MyNav() {
         history.push("/");
     }
 
+
     if (session) {
         user = session.name;
         logout_button = <Nav.Link onSelect={logout} href="/">Log Out</Nav.Link>;
+
+        if(!session.name) {
+            store.dispatch({type: "error/set", data: "Complete the Registration By Getting A Name. Otherwise, You Can't Do Anything!"});
+        }
     }
 
-    if (session) {
-        user = session.name;
-    }
-
-    if(!session.name) {
-        store.dispatch({type: "error/set", data: "Complete the Registration By Getting A Name. Otherwise, You Can't Do Anything!"});
-    }
 
     if (error) {
         error_row = (
