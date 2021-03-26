@@ -16,7 +16,7 @@ export async function api_post(path, data) {
         },
         body: JSON.stringify(data),
     };
-    let text = await fetch("http://localhost:4000/api/v1" + path, opts);
+    let text = await fetch("http://hw09-api.citronk.com/api/v1" + path, opts);
     return await text.json();
 }
 
@@ -43,7 +43,7 @@ async function api_patch(data, path) {
         },
         body: JSON.stringify(data),
     }
-    let text = await fetch(`http://localhost:4000/api/v1${path}`, opts)
+    let text = await fetch(`http://hw09-api.citronk.com/api/v1${path}`, opts)
     return text.json();
 }
 
@@ -82,7 +82,7 @@ async function api_fetch(path) {
             'x-auth': token,
         },
     };
-    let text = await fetch(`http://localhost:4000/api/v1${path}`, opts);
+    let text = await fetch(`http://hw09-api.citronk.com/api/v1${path}`, opts);
     return text.json();
 }
 
@@ -122,7 +122,7 @@ async function api_delete(path, data) {
         },
         body: JSON.stringify(data)
     }
-    let text = await fetch(`http://localhost:4000/api/v1${path}`, opts);
+    let text = await fetch(`http://hw09-api.citronk.com/api/v1${path}`, opts);
     return text;
 }
 
@@ -160,7 +160,7 @@ export async function create_events(event) {
         }
     }
     let text = await fetch(
-        "http://localhost:4000/api/v1/events", opts);
+        "http://hw09-api.citronk.com/api/v1/events", opts);
     return await text.json();
 }
 
@@ -178,7 +178,7 @@ export async function create_invitee(invitee) {
         }
     }
     let text = await fetch(
-        "http://localhost:4000/api/v1/invites", opts);
+        "http://hw09-api.citronk.com/api/v1/invites", opts);
     return await text.json();
 }
 
@@ -195,6 +195,6 @@ export async function create_comment(comment) {
         }
     }
     let text = await fetch(
-        "http://localhost:4000/api/v1/comments", opts);
+        "http://hw09-api.citronk.com/api/v1/comments", opts);
     return await text.json();
 }
