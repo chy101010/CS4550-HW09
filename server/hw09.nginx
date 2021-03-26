@@ -1,0 +1,15 @@
+[Unit]
+Description=HW09
+
+[Service]
+Type=simple
+User=hw09
+Group=hw09
+Restart=on-failure
+Environment=LANG=en_US.UTF-8
+
+WorkingDirectory=/home/hw09/cs4550-hw09/server
+ExecStart=/bin/bash /home/hw09/cs4550-hw09/server/start.sh
+
+[Install]
+WantedBy=multi-user.target
