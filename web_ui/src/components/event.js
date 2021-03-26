@@ -39,7 +39,7 @@ export default function Event({ match }) {
             store.dispatch({ type: "error/set", data: result.error })
         }
         else {
-            store.dispatch({ type: "success/set", data: "Successfully Invited!" })
+            store.dispatch({ type: "success/set", data: "Successfully Invited! Unregisted User Has The Following Default PW: 123456789" })
             fetchEvent();
         }
     }
@@ -166,7 +166,6 @@ export default function Event({ match }) {
                 edit_link = <a className="mr-1" href={`/comment/${event.comments[index].id}/edit`}>Edit</a>;
                 delete_button = <button type="button" className="ml-1 btn-link btn-anchor" data={event.comments[index].id} onClick={deleteComment} href="#">Delete</button>;
             }
-            // if()
             comments_row.push(
                 <div key={event.comments[index].id} className="float-start p-1 mt-1" style={{ width: '100%' }}>
                     <div className="float-start border ms-1 overflow-auto text-break" style={{ width: "100%", height: "100px" }}>
@@ -215,6 +214,7 @@ export default function Event({ match }) {
                         <li>{`Host Email: ${event.user.email}`}</li>
                         <li>{`Description: ${event.description}`}</li>
                         <li>{`Responses Status: ${event.responses}`}</li>
+                        <li>{`Invite Link: http://localhost:3000/event/${event.id}`}</li>
                         {edit_link}
                         {delete_button}
                     </ul>

@@ -35,9 +35,6 @@ export default function EditUser() {
                 let d1 = Object.assign({}, data.data);
                 d1.password = "";
                 d1.name = d1.name || "";
-                if(!d1.name) {
-                    store.dispatch({type: "error/set", data: "Complete the Registration By Getting A Name"});
-                }
                 setUser(d1);
             }
         }

@@ -49,7 +49,6 @@ defmodule Hw09Web.InviteController do
   # Access: Event Owner 
   def create(conn, invite_params) do
     event_id = invite_params["event_id"]
-    event = Events.get_event!(event_id)
     if(String.length(String.trim(event_id)) == 0) do
       conn
         |> put_resp_header("content-type", "application/json; charset=UTF-8")
@@ -59,7 +58,7 @@ defmodule Hw09Web.InviteController do
       if(is_owner?(conn, event_id) && conn.assigns[:user].email != email) do
         invitee = Users.get_user_by_email(email)
         if(!invitee) do
-          {result, user} = Users.create_user(%{"email" => email, "password" => "0123456789"})
+          {result, user} = Users.create_user(%{"email" => email, "password" => "123456789"})
           if(result == :error) do
             conn
             |> put_resp_header("content-type", "application/json; charset=UTF-8")
@@ -86,17 +85,16 @@ defmodule Hw09Web.InviteController do
   end
 
   # Access: Invitess
-  def update(conn, %{"id" => id, "invite" => invite_params}) do
+  def update(conn, %{"id" => _id, "invite" => invite_params}) do
     user_id = conn.assigns[:user].id
     invite = conn.assigns[:invite]
-    event = conn.assigns[:event]
     if(user_id == invite.user_id) do
       case Invites.update_invite(invite, invite_params) do
         {:ok, invite} ->
           conn
           |> put_status(:accepted)
           |> render("show.json", invite: invite)
-        {:error, %Ecto.Changeset{} = changeset} -> 
+        {:error, %Ecto.Changeset{} = _changeset} -> 
           conn
           |> put_resp_header("content-type", "application/json; charset=UTF-8")
           |> send_resp(406, Jason.encode!(%{error: "Failed Update"}))
@@ -109,7 +107,7 @@ defmodule Hw09Web.InviteController do
   end
 
   # Require owner of the event
-  def delete(conn, %{"id" => id}) do
+  def delete(conn, %{"id" => _id}) do
     user_id = conn.assigns[:user].id
     event = conn.assigns[:event]
     if(event && event.user_id == user_id) do

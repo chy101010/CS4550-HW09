@@ -43,6 +43,10 @@ export default function MyNav() {
         user = session.name;
     }
 
+    if(!session.name) {
+        store.dispatch({type: "error/set", data: "Complete the Registration By Getting A Name. Otherwise, You Can't Do Anything!"});
+    }
+
     if (error) {
         error_row = (
             <Row>

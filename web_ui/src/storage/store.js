@@ -26,6 +26,7 @@ export function restore_session() {
   }
 }
 
+
 function remove_session() {
   localStorage.removeItem("session");
 }
