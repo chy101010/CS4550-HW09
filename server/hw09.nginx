@@ -1,15 +1,17 @@
-[Unit]
-Description=HW09
+server {
+	listen 80;
+	listen [::]:80;
 
-[Service]
-Type=simple
-User=hw09
-Group=hw09
-Restart=on-failure
-Environment=LANG=en_US.UTF-8
+	server_name hw09-api.citronk.com;
 
-WorkingDirectory=/home/hw09/cs4550-hw09/server
-ExecStart=/bin/bash /home/hw09/cs4550-hw09/server/start.sh
+	location / {
+		proxy_pass http://localhost:4804;
+	}
 
-[Install]
-WantedBy=multi-user.target
+	location /socket {
+		proxy_pass http://localhost:4804;
+		proxy_http_version 1.1;
+		proxy_set_header Upgrade $http_upgrade;
+		proxy_set_header Connection "upgrade";
+	}
+}
