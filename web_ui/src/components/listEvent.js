@@ -12,7 +12,7 @@ export default function ListEvents() {
         const text = color === 'light' ? 'dark' : 'white';
         let edit_button = null;
         if(session.email === events[index].user.email) {
-            edit_button = <a className="me-2" href={`/event/${events[index].id}/edit`}>Edit</a>;
+            edit_button = <a className="ml-2" href={`/event/${events[index].id}/edit`}>Edit</a>;
         }
         events_row.push(
             <Card className="ml-2 mt-2" bg={color} text={text} key={events[index].id} style={{ width: '18rem' }}>
@@ -20,7 +20,7 @@ export default function ListEvents() {
                     <Card.Title>{events[index].name}</Card.Title>
                     <Card.Subtitle className="mb-2 text-muted">{events[index].date}</Card.Subtitle>
                     <Card.Text>{events[index].description}</Card.Text>
-                    <a href={`/event/${events[index].id}`}>Show</a>
+                    <a className="ml-2" href={`/event/${events[index].id}`}>Show</a>
                     {edit_button}
                 </Card.Body>
             </Card>
