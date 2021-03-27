@@ -27,7 +27,6 @@ export default function EditUser() {
     async function fetchUser() {
         if (session) {
             let data = await fetch_user(session.user_id);
-            data.password = "";
             if(data.error) {
                 store.dispatch({type: "error/set", data: data.error});
             }

@@ -37,6 +37,7 @@ defmodule Hw09Web.UserController do
 
   def show(conn, %{"id" => id}) do
     user = Users.get_user!(id)
+    IO.puts("called");
     render(conn, "show.json", user: user)
   end
 

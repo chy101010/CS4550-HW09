@@ -12,8 +12,9 @@ export default function Home() {
 
     async function fetchEvents() {
         let data = await fetch_events();
-        if(!data.error) {
-            store.dispatch({type: "events/set", data: data.data});
+        if(!data.error) { 
+	    console.log(data.data);
+            store.dispatch({type: "events/set", data: data.data || []});
         }
     }
 
