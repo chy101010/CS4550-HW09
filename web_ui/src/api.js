@@ -1,6 +1,5 @@
 import store from './storage/store';
 
-
 // Session 
 function get_token() {
     let state = store.getState();

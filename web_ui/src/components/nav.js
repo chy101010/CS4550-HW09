@@ -37,7 +37,7 @@ export default function MyNav() {
 
     if (session) {
         user = session.name;
-        logout_button = <Nav.Link onSelect={logout} href="/">Log Out</Nav.Link>;
+        logout_button = <Nav.Link onSelect={logout} to="/">Log Out</Nav.Link>;
 
         if(!session.name) {
             store.dispatch({type: "error/set", data: "Complete the Registration By Getting A Name. Otherwise, You Can't Do Anything!"});

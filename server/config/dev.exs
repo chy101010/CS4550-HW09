@@ -2,7 +2,7 @@ use Mix.Config
 
 # Configure your database
 config :hw09, Hw09.Repo,
-  username: "hw09",
+  username: "hw07",
   password: "Joi7Yo3A",
   database: "hw09_dev",
   hostname: "localhost",

@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 // APIS
 import { fetch_event, create_invitee, delete_event } from "../api";
 import store from "../storage/store";
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 
 // API
 import { edit_response, delete_invite, create_comment, delete_comment } from '../api'
@@ -163,8 +163,8 @@ export default function Event({ match }) {
             let delete_button = null;
             let edit_link = null;
             if(event.comments[index].user.email === session.email || event.user.email === session.email) {
-                edit_link = <a className="mr-1" href={`/comment/${event.comments[index].id}/edit`}>Edit</a>;
-                delete_button = <button type="button" className="ml-1 btn-link btn-anchor" data={event.comments[index].id} onClick={deleteComment} href="#">Delete</button>;
+                edit_link = <Link className="mr-1" to={`/comment/${event.comments[index].id}/edit`}>Edit</Link>;
+                delete_button = <button type="button" className="ml-1 btn-link btn-anchor" data={event.comments[index].id} onClick={deleteComment}>Delete</button>;
             }
             comments_row.push(
                 <div key={event.comments[index].id} className="float-start p-1 mt-1" style={{ width: '100%' }}>
@@ -187,7 +187,7 @@ export default function Event({ match }) {
     let delete_button = null;
     let invite_form = null;
     if (session.email === event.user.email) {
-        edit_link = <a className="mr-1" href={`/event/${event.id}/edit`}>Edit</a>;
+        edit_link = <Link className="mr-1" to={`/event/${event.id}/edit`}>Edit</Link>;
         delete_button = <button type="button" className="ml-1 btn-link btn-anchor" data={event.id} onClick={deleteEvent}> Delete</button>
         invite_form = (
             <Form onSubmit={createInvite}>
