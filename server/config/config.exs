@@ -19,10 +19,10 @@ config :hw09, Hw09Web.Endpoint,
   live_view: [signing_salt: "fVl/XU8i"]
 
 config :cors_plug,
-  origin: ["http://localhost:3000"],
+  origin: ["http://events-spa.citronk.com"],
   max_age: 86400,
   methods: ["GET", "POST", "PATCH", "DELETE"],
-  headers: ["x-auth"]
+  headers: ["x-auth", "Content-Type"]
 
 # Configures Elixir's Logger
 config :logger, :console,
